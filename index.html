@@ -482,6 +482,17 @@
     .card .ph-g { font-size: 80px; }
   }
 
+  /* ロゴ画像（演劇部など）：切り抜かずに白地の真ん中に */
+  .card .ph.logo { background: radial-gradient(circle at 50% 50%, #ffffff 0 55%, #ecebf6 100%); display: grid; place-items: center; }
+  .card .ph.logo::after { background: linear-gradient(180deg, rgba(7,8,26,.55) 0%, transparent 28%); }
+  .card .ph.logo img { width: auto; height: auto; max-width: 62%; max-height: 74%; aspect-ratio: 1; object-fit: contain; filter: none; mix-blend-mode: multiply; }
+  .card:hover .ph.logo img { transform: scale(1.03); }
+  .card .ph.logo::after { display: none; }
+  .card .ph.logo .big { text-shadow: none; }
+  .card .ph.logo .order { color: var(--c); }
+  .card .ph.logo .order b { -webkit-text-stroke-color: var(--c); }
+  @media (max-width: 760px) { .card .ph { aspect-ratio: 16 / 10; } .card .ph.logo img { max-height: 70%; } }
+
   /* プログラムの演目名 → 出演紹介へ */
   .row a.name { color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
   .row a.name i { font-style: normal; font-size: .7em; color: var(--c); opacity: 0; transform: translateX(-4px); transition: opacity .2s, transform .2s; }
@@ -801,7 +812,7 @@
   // 出演
   $("cards").innerHTML = PERFORMANCES.map((p, i) => `
     <article class="card k-${p.kind}" data-k="${p.kind}" id="stage-${p.kind}">
-      <div class="ph${p.photo ? "" : " art"}" style="--pos:${15 + i * 18}%">
+      <div class="ph${p.photo ? (p.photoFit === "logo" ? " logo" : "") : " art"}" style="--pos:${15 + i * 18}%">
         <div class="big">${KIND_LABEL[p.kind]}</div>
         <div class="order">STAGE<b>${String(i + 1).padStart(2, "0")}</b></div>
         ${p.photo ? `<img src="${p.photo}" alt="${p.title}の様子" loading="lazy">` : `<span class="ph-g">${KIND_LABEL[p.kind]}</span>`}
