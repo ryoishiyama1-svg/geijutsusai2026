@@ -95,7 +95,7 @@ const PROGRAM = [
     desc: "", photo: "images/dance.jpg",
     comment: "精一杯踊ります！みんな見に来てね！",
     memberCount: 18 },
-  { start: "16:20", end: "16:58", title: "演劇",       kind: "drama",  performer: "演劇部", desc: "", comment: "",
+  { start: "16:20", end: "16:58", title: "演劇",       kind: "drama",  performer: "演劇部", desc: "", comment: "ミステリーが好きな君にぜひ",
     memberCount: 10 },
   { start: "17:00", end: "",      title: "閉会のあいさつ", kind: "ceremony" },
 ];
