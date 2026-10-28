@@ -10,9 +10,37 @@
 <meta property="og:title" content="芸術祭｜11.07 SAT 麻布学園 講堂">
 <meta property="og:description" content="5つのステージを、一日で。軽音・DJ・アザライブ・ダンス・演劇。入場無料・予約不要。">
 <meta property="og:url" content="https://ryoishiyama1-svg.github.io/geijutsusai2026/">
-<meta property="og:image" content="https://ryoishiyama1-svg.github.io/geijutsusai2026/images/keyvisual.jpg">
+<meta property="og:image" content="https://ryoishiyama1-svg.github.io/geijutsusai2026/images/ogp.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="芸術祭 11.07 SAT 麻布学園 講堂 入場無料">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:site_name" content="芸術祭">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ryoishiyama1-svg.github.io/geijutsusai2026/images/ogp.jpg">
 <meta name="theme-color" content="#07081a">
+<link rel="canonical" href="https://ryoishiyama1-svg.github.io/geijutsusai2026/">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="512x512" href="images/icon-512.png">
+<!-- Google検索に「イベント」として載せるための情報 -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "芸術祭",
+  "description": "5つのステージを、一日で。軽音・DJ・アザライブ・ダンス・演劇。入場無料・予約不要。",
+  "startDate": "2026-11-07T12:55:00+09:00",
+  "endDate": "2026-11-07T17:00:00+09:00",
+  "doorTime": "12:40:00+09:00",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "isAccessibleForFree": true,
+  "image": ["https://ryoishiyama1-svg.github.io/geijutsusai2026/images/ogp.jpg", "https://ryoishiyama1-svg.github.io/geijutsusai2026/images/keyvisual.jpg"],
+  "location": { "@type": "Place", "name": "麻布学園 講堂", "address": { "@type": "PostalAddress", "streetAddress": "元麻布2-3-29", "addressLocality": "港区", "addressRegion": "東京都", "addressCountry": "JP" } },
+  "organizer": { "@type": "Organization", "name": "芸術祭スタッフ一同", "email": "geijutusai@gmail.com", "url": "https://ryoishiyama1-svg.github.io/geijutsusai2026/" },
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY", "availability": "https://schema.org/InStock", "url": "https://ryoishiyama1-svg.github.io/geijutsusai2026/" }
+}
+</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2212%22 fill=%22%2307081a%22/%3E%3Ctext x=%2232%22 y=%2246%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%23e8bd57%22 font-family=%22serif%22 font-weight=%22900%22%3E芸%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700;900&family=Zen+Old+Mincho:wght@700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -482,6 +510,13 @@
     .card .ph-g { font-size: 80px; }
   }
 
+  /* 見たい★だけ表示 */
+  .want-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 14px 0 10px; }
+  .want-bar .want-note { margin: 0; }
+  .want-only { font: inherit; font-size: 13px; font-weight: 700; color: var(--gold); background: transparent; border: 1px solid var(--gold); border-radius: 999px; padding: 6px 14px; cursor: pointer; }
+  .want-only[aria-pressed="true"] { background: var(--gold); color: var(--bg); }
+  .tt.only-wants .row.perf:not(.wanted) { display: none; }
+
   /* ロゴ画像（演劇部など）：切り抜かずに白地の真ん中に */
   .card .ph.logo { background: radial-gradient(circle at 50% 50%, #ffffff 0 55%, #ecebf6 100%); display: grid; place-items: center; }
   .card .ph.logo::after { background: linear-gradient(180deg, rgba(7,8,26,.55) 0%, transparent 28%); }
@@ -583,7 +618,7 @@
 <section id="program">
   <div class="sec-head"><span class="num"></span><div><small>TIMETABLE</small><h2>プログラム</h2></div></div>
   <div id="tlBar"></div>
-  <p class="want-note" id="wantNote"></p>
+  <div class="want-bar"><p class="want-note" id="wantNote"></p><button type="button" class="want-only" id="wantOnly" aria-pressed="false" hidden>★だけ表示</button></div>
   <div class="tt" id="timetable"></div>
   <a class="pamph-cta" id="pamphCta" href="#" target="_blank" rel="noopener" hidden><span class="pc-en">DIGITAL PAMPHLET</span><span class="pc-jp">パンフレットを見る</span><span class="pc-arrow">→</span></a>
 </section>
@@ -800,8 +835,15 @@
       b.closest(".row").classList.toggle("wanted", on);
     });
     document.querySelectorAll(".card").forEach((c) => c.classList.toggle("wanted", wants.includes(c.dataset.k)));
+    $("wantOnly").hidden = !wants.length;
+    if (!wants.length) { $("timetable").classList.remove("only-wants"); $("wantOnly").setAttribute("aria-pressed", "false"); $("wantOnly").textContent = "★だけ表示"; }
     $("wantNote").textContent = wants.length ? `★ ${wants.length}つ選択中。当日は画面下のバーで、次の★ステージをお知らせします。` : "見たいステージに ★ をつけておくと、当日は画面下のバーで次の★ステージをお知らせします。";
   }
+  $("wantOnly").onclick = () => {
+    const on = $("timetable").classList.toggle("only-wants");
+    $("wantOnly").setAttribute("aria-pressed", on);
+    $("wantOnly").textContent = on ? "すべて表示" : "★だけ表示";
+  };
   document.querySelectorAll(".want").forEach((b) => (b.onclick = () => {
     const k = b.dataset.k;
     wants = wants.includes(k) ? wants.filter((x) => x !== k) : [...wants, k];
@@ -813,7 +855,7 @@
   $("cards").innerHTML = PERFORMANCES.map((p, i) => `
     <article class="card k-${p.kind}" data-k="${p.kind}" id="stage-${p.kind}">
       <div class="ph${p.photo ? (p.photoFit === "logo" ? " logo" : "") : " art"}" style="--pos:${15 + i * 18}%">
-        <div class="big">${KIND_LABEL[p.kind]}</div>
+        <div class="big">${p.label || KIND_LABEL[p.kind]}</div>
         <div class="order">STAGE<b>${String(i + 1).padStart(2, "0")}</b></div>
         ${p.photo ? `<img src="${p.photo}" alt="${p.title}の様子" loading="lazy">` : `<span class="ph-g">${KIND_LABEL[p.kind]}</span>`}
       </div>

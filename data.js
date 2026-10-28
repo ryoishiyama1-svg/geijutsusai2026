@@ -90,7 +90,7 @@ const PROGRAM = [
   // 一言（comment）はパンフレットと同じ。紹介文（desc）は空なら出さない
   { start: "12:55", end: "14:05", title: "軽音",       kind: "band",   performer: "軽音楽部", desc: "入部希望者募集！！", photo: "images/band.jpg", comment: "響く轟音とライブパフォーマンスをお楽しみください！" },
   { start: "14:07", end: "14:47", title: "DJ",         kind: "dj",     performer: "", desc: "", photo: "images/dj.jpg", comment: "Make some noise!" },
-  { start: "14:48", end: "15:48", title: "アザライブ", kind: "live",   performer: "", desc: "", photo: "images/live.jpg", comment: "麻布学園のスクールアイドル、アザライブ！です！" },
+  { start: "14:48", end: "15:48", title: "アザライブ", kind: "live",   label: "AZA LIVE", performer: "", desc: "", photo: "images/live.jpg", comment: "麻布学園のスクールアイドル、アザライブ！です！" },
   { start: "15:50", end: "16:19", title: "ダンス",     kind: "dance",  performer: "ダンス部",
     desc: "", photo: "images/dance.jpg",
     comment: "精一杯踊ります！みんな見に来てね！",
