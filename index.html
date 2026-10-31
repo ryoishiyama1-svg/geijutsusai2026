@@ -510,6 +510,10 @@
     .card .ph-g { font-size: 80px; }
   }
 
+  /* 演目名と作者（演劇など） */
+  .card .work { font-family: var(--mincho); font-weight: 900; font-size: clamp(20px, 2.2vw, 26px); letter-spacing: .06em; color: var(--text); margin: 2px 0 6px; }
+  .card .work small { display: block; font-family: inherit; font-weight: 700; font-size: 13px; letter-spacing: .12em; color: var(--muted); margin-top: 2px; }
+
   /* 見たい★だけ表示 */
   .want-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 14px 0 10px; }
   .want-bar .want-note { margin: 0; }
@@ -819,7 +823,7 @@
       <div class="time">${p.start}${p.end ? ` <small>– ${p.end}</small>` : ""}</div>
       <div>
         ${p.end ? `<a class="name" href="#stage-${p.kind}">${p.title}<i aria-hidden="true">→</i></a>` : `<div class="name">${p.title}</div>`}
-        ${p.performer ? `<div class="performer">${fill(p.performer)}</div>` : ""}
+        ${p.performer ? `<div class="performer">${fill(p.performer)}${p.work ? `　${p.work}` : ""}</div>` : ""}
       </div>
       <div class="tag">${p.end ? KIND_LABEL[p.kind] : ""}</div>
       ${p.end ? `<button type="button" class="want" data-k="${p.kind}" aria-pressed="false" aria-label="${p.title}を見たいリストに入れる"><span>☆</span>見たい</button>` : "<span></span>"}
@@ -857,14 +861,15 @@
       <div class="ph${p.photo ? (p.photoFit === "logo" ? " logo" : "") : " art"}" style="--pos:${15 + i * 18}%">
         <div class="big">${p.label || KIND_LABEL[p.kind]}</div>
         <div class="order">STAGE<b>${String(i + 1).padStart(2, "0")}</b></div>
-        ${p.photo ? `<img src="${p.photo}" alt="${p.title}の様子" loading="lazy">` : `<span class="ph-g">${KIND_LABEL[p.kind]}</span>`}
+        ${p.photo ? `<img src="${p.photo}" alt="${p.title}の様子" loading="lazy"${p.photoPos ? ` style="object-position:${p.photoPos}"` : ""}>` : `<span class="ph-g">${KIND_LABEL[p.kind]}</span>`}
       </div>
       <div class="body">
         <div class="when">${p.start} – ${p.end}</div>
         <h3>${p.title}</h3>
+        ${p.work ? `<div class="work">${p.work}${p.author ? `<small>作：${p.author}</small>` : ""}</div>` : ""}
         ${p.performer ? `<div class="perf">${fill(p.performer)}${p.memberCount ? `（${p.memberCount}名）` : ""}</div>` : ""}
         ${p.desc ? `<p>${isTodo(p.desc) && !EVENT.draft ? "紹介は近日公開します。" : fill(p.desc)}</p>` : ""}
-        ${hideTodo(p.comment) ? "" : `<blockquote class="cmt"><span>ONE WORD</span>${fill(p.comment)}</blockquote>`}
+        ${hideTodo(p.comment) ? "" : `<blockquote class="cmt"><span>ONE WORD</span>${br(p.comment)}</blockquote>`}
       </div>
     </article>`).join("");
   paintWants();

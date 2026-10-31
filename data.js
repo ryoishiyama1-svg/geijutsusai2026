@@ -95,8 +95,8 @@ const PROGRAM = [
     desc: "", photo: "images/dance.jpg",
     comment: "精一杯踊ります！みんな見に来てね！",
     memberCount: 18 },
-  { start: "16:20", end: "16:58", title: "演劇",       kind: "drama",  performer: "演劇部", desc: "", photo: "images/drama.jpg", photoFit: "logo", comment: "ミステリーが好きな君にぜひ",
-    memberCount: 10 },
+  { start: "16:20", end: "16:58", title: "演劇",       kind: "drama",  performer: "演劇部", work: "『Vの中』", desc: "", photo: "images/drama.jpg", photoPos: "60% 36%", comment: "究極の芸術に震えよ。\nVtuber×芥川龍之介",
+    memberCount: 13 },
   { start: "17:00", end: "",      title: "閉会のあいさつ", kind: "ceremony" },
 ];
 
