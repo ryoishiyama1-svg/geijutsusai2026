@@ -24,7 +24,7 @@ const EVENT = {
   fee: "入場無料・予約不要",
   hashtags: ["#麻布芸術祭2026", "#芸術祭×地域"],
   highlights: [
-    ["5 GENRES", "5ジャンルを一気に", "軽音・DJ・アザライブ・ダンス・演劇。ジャンルをまたいだステージが、ひとつの講堂で続きます。"],
+    ["5 GENRES", "5ジャンルを一気に", "軽音・DJ・アザライブ！・ダンス・演劇。ジャンルをまたいだステージが、ひとつの講堂で続きます。"],
     ["FREE", "ふらっと立ち寄れる", "入場無料・予約不要・出入り自由。気になる演目だけ観に来るのも大歓迎です。"],
     ["OPEN", "地域にひらく", "学外の方、地域の方、どなたでも。麻布の地域交流の中心となるコミュニティへの第一歩です。"],
   ],
@@ -90,7 +90,7 @@ const PROGRAM = [
   // 一言（comment）はパンフレットと同じ。紹介文（desc）は空なら出さない
   { start: "12:55", end: "14:05", title: "軽音",       kind: "band",   performer: "軽音楽部", desc: "入部希望者募集！！", photo: "images/band.jpg", comment: "響く轟音とライブパフォーマンスをお楽しみください！" },
   { start: "14:07", end: "14:47", title: "DJ",         kind: "dj",     performer: "", desc: "", photo: "images/dj.jpg", comment: "Make some noise!" },
-  { start: "14:48", end: "15:48", title: "アザライブ", kind: "live",   label: "AZA LIVE", performer: "", desc: "", photo: "images/live.jpg", comment: "麻布学園のスクールアイドル、アザライブ！です！" },
+  { start: "14:48", end: "15:48", title: "アザライブ！", kind: "live",   label: "AZA LIVE", performer: "", desc: "", photo: "images/live.jpg", comment: "麻布学園のスクールアイドル、アザライブ！です！" },
   { start: "15:50", end: "16:19", title: "ダンス",     kind: "dance",  performer: "ダンス部",
     desc: "", photo: "images/dance.jpg",
     comment: "精一杯踊ります！みんな見に来てね！",
