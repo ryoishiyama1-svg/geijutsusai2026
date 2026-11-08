@@ -1,108 +1,145 @@
 // =====================================================
-// イベント情報（ホームページとパンフレットの共通データ）
-// ここを書き換えると両方に反映されます。
+// 芸術祭 公式サイトのデータ
+//  1) SITE …… 芸術祭そのものの情報（毎年ほぼ変わらない）
+//  2) EDITIONS …… 年ごとの記録。新しい年は配列のいちばん上に足す
 // 「【要入力】」はまだ決まっていない項目です。
 // =====================================================
 
-const EVENT = {
+const SITE = {
   title: "芸術祭",
-  // \n で改行（縦書きでは列が変わる）
-  catchcopy: "5つのステージを、\n一日で。",
-  catchcopySub: "麻布から、地域とつながる一日を。",
-  heroImage: "images/keyvisual.jpg",
-  date: "2026-11-07",
-  dateLabel: "2026年11月7日（土）",
-  openTime: "12:40",
-  startTime: "12:55",
-  endTime: "17:00",
-  venue: "麻布学園 講堂",
-  address: "東京都港区元麻布2-3-29",
-  access: [
-    "東京メトロ日比谷線「広尾」駅 徒歩約10分",
-    "都営大江戸線・東京メトロ南北線「麻布十番」駅 徒歩約15分",
-  ],
-  fee: "入場無料・予約不要",
-  hashtags: ["#麻布芸術祭2026", "#芸術祭×地域"],
-  highlights: [
-    ["5 GENRES", "5ジャンルを一気に", "軽音・DJ・アザライブ！・ダンス・演劇。ジャンルをまたいだステージが、ひとつの講堂で続きます。"],
-    ["FREE", "ふらっと立ち寄れる", "入場無料・予約不要・出入り自由。気になる演目だけ観に来るのも大歓迎です。"],
-    ["OPEN", "地域にひらく", "学外の方、地域の方、どなたでも。麻布の地域交流の中心となるコミュニティへの第一歩です。"],
+  en: "AZABU ART FESTIVAL",
+  // 「芸術祭とは」（トップに毎年残す説明）
+  about: [
+    "芸術祭は、麻布学園の生徒が企画・運営する、音楽・ダンス・演劇などのステージイベントです。",
+    "ジャンルの垣根をこえたステージを、ひとつの講堂で。学外の方や地域の方にもひらかれた、麻布の地域交流の中心となるコミュニティを目指しています。",
+    "入場無料・予約不要。出演する団体やプログラムは、毎年新しくしてお届けします。",
   ],
   organizer: "芸術祭スタッフ一同",
   contact: "geijutusai@gmail.com",
-  notices: [
-    "学外の方も大歓迎です。どなたでもお気軽にお越しください。",
-    "撮影・録音は可能です。ただし、出演者の許可なくSNS等へ投稿することはお控えください。",
-    "途中の入退場は自由です。",
-    "上履きは不要です。",
-    "講堂内での飲食は、お飲み物のみ可能です。",
-    "会場の麻布生のノリが異常な盛り上がりを見せる場合があります。どうかお気になさらず。",
-    "名札を付けている芸術祭スタッフの指示はよく聞いてください。",
-  ],
-  faq: [
-    ["チケットや予約は必要ですか？", "必要ありません。入場無料・予約不要で、当日そのままお越しいただけます。"],
-    ["途中から入ったり、途中で帰ったりしてもいいですか？", "はい、入退場は自由です。お好きな演目だけでもぜひ。"],
-    ["麻布の生徒・関係者じゃなくても行けますか？", "もちろんです。地域の方、他校の方、どなたでも大歓迎です。"],
-    ["写真や動画を撮ってもいいですか？", "撮影・録音はOKです。ただし出演者の許可なくSNS等へ投稿するのはご遠慮ください。"],
-    ["飲食はできますか？", "講堂内はお飲み物のみOKです。"],
-    ["上履きは必要ですか？", "不要です。そのままお入りください。"],
-  ],
-  greeting: [
-    "こんにちは。芸術祭 共同代表の石山と大林です。",
-    "今年の芸術祭は、麻布の地域交流の中心となるコミュニティとしての第一歩と考えています。",
-    "学外の皆さまも、どうぞ遠慮なくお立ち寄りください。",
-  ],
-  greetingSign: "芸術祭 共同代表　石山遼真・大林祐駈",
-  // お知らせ（新しい順。[日付, 本文]）
-  news: [
-    ["2026.10.27", "公式サイトを公開しました。"],
-  ],
-  // 楽しみ方（見出し, 本文）
-  howto: [
-    ["ふらっと来る", "予約もチケットもいりません。思い立ったらそのまま講堂へ。"],
-    ["好きな演目を選ぶ", "出入り自由。タイムテーブルを見て、気になるステージだけでもOK。"],
-    ["撮って残す", "撮影・録音はOK。SNSに載せるときは出演者の許可をとってから。"],
-    ["一緒に盛り上がる", "麻布生のノリに巻き込まれるのも、この日の楽しみ方のひとつです。"],
-  ],
   // 公式サイトのURL（QRコード・シェア用）
   siteUrl: "https://ryoishiyama1-svg.github.io/geijutsusai2026/",
-  // パンフレット（PDFなど）を公開するならそのURL。空のあいだ、ホームページにパンフレットへのリンクは出さない
-  pamphletUrl: "",
-  // 下書きモード。true のあいだ「【要入力】」を黄色で目立たせる。
-  // 公開するときは false に → 未定の項目は「近日公開」になり、未定の一言・クレジット行は出さない
+  // 下書きモード。true のあいだ「【要入力】」を黄色で目立たせる
   draft: false,
-  // 協賛・協力（以前の pamphlet.html 用。ホームページには出さない）
-  sponsors: [],
-  // クレジット（役割, 名前）
-  credits: [
-    ["共同代表", "石山遼真・大林祐駈"],
-    ["運営", "芸術祭スタッフ一同"],
-    ["メインビジュアル", "神田祐太郎"],
-    ["顧問", "諸橋先生・村本先生"],
-  ],
 };
 
-// staff: true の行は一般向けには表示しません
-const PROGRAM = [
-  { start: "12:30", end: "",      title: "各スタッフ準備開始", kind: "staff", staff: true },
-  { start: "12:40", end: "",      title: "開場",       kind: "ceremony" },
-  { start: "12:50", end: "",      title: "開会",       kind: "ceremony" },
-  // 一言（comment）はパンフレットと同じ。紹介文（desc）は空なら出さない
-  { start: "12:55", end: "14:05", title: "軽音",       kind: "band",   performer: "軽音楽部", desc: "入部希望者募集！！", photo: "images/band.jpg", comment: "響く轟音とライブパフォーマンスをお楽しみください！" },
-  { start: "14:07", end: "14:47", title: "DJ",         kind: "dj",     performer: "", desc: "", photo: "images/dj.jpg", comment: "Make some noise!" },
-  { start: "14:48", end: "15:48", title: "アザライブ！", kind: "live",   label: "AZA LIVE", performer: "", desc: "", photo: "images/live.jpg", comment: "麻布学園のスクールアイドル、アザライブ！です！" },
-  { start: "15:50", end: "16:19", title: "ダンス",     kind: "dance",  performer: "ダンス部",
-    desc: "", photo: "images/dance.jpg",
-    comment: "精一杯踊ります！みんな見に来てね！",
-    memberCount: 18 },
-  { start: "16:20", end: "16:58", title: "演劇",       kind: "drama",  performer: "演劇部", work: "『Vの中』", desc: "", photo: "images/drama.jpg", photoPos: "60% 36%", comment: "究極の芸術に震えよ。\nVtuber×芥川龍之介",
-    memberCount: 13 },
-  { start: "17:00", end: "",      title: "閉会のあいさつ", kind: "ceremony" },
+// =====================================================
+// 年ごとの記録（新しい年を上に）
+//  status: "upcoming" … 開催前（カウントダウン・カレンダー登録などを出す）
+//          "done"     … 開催後（来場者数・お礼・写真を出す）
+//  出演団体は年ごとに program に書く。新しいジャンルは kind を新しく作り、
+//  label（表示名）と color（色）を書けばそのまま使える
+// =====================================================
+const EDITIONS = [
+  {
+    year: 2026,
+    status: "done",
+    attendance: 2157,
+    // 開催後のお礼（共同代表から）
+    report: [
+      "芸術祭2026にお越しいただいた皆さま、本当にありがとうございました。",
+      "当日は2,157人もの方にご来場いただき、たくさんの拍手と声援をいただきました。",
+      "出演してくれた軽音・DJ・アザライブ！・ダンス・演劇の皆さん、準備から当日まで支えてくれたスタッフと先生方、そして足を運んでくださった地域の皆さまに、心から感謝いたします。",
+      "芸術祭は、これからも麻布の地域交流の中心となるコミュニティを目指して続いていきます。来年もぜひお越しください。",
+    ],
+    reportSign: "芸術祭2026 共同代表　石山遼真・大林祐駈",
+    // 当日の写真（[ファイル, 説明]）。送ってもらったら追加する
+    photos: [],
+
+    catchcopy: "5つのステージを、\n一日で。",
+    catchcopySub: "麻布から、地域とつながる一日を。",
+    heroImage: "images/keyvisual.jpg",
+    date: "2026-11-07",
+    dateLabel: "2026年11月7日（土）",
+    openTime: "12:40",
+    startTime: "12:55",
+    endTime: "17:00",
+    venue: "麻布学園 講堂",
+    address: "東京都港区元麻布2-3-29",
+    access: [
+      "東京メトロ日比谷線「広尾」駅 徒歩約10分",
+      "都営大江戸線・東京メトロ南北線「麻布十番」駅 徒歩約15分",
+    ],
+    fee: "入場無料・予約不要",
+    hashtags: ["#麻布芸術祭2026", "#芸術祭×地域"],
+    highlights: [
+      ["5 GENRES", "5ジャンルを一気に", "軽音・DJ・アザライブ！・ダンス・演劇。ジャンルをまたいだステージが、ひとつの講堂で続きます。"],
+      ["FREE", "ふらっと立ち寄れる", "入場無料・予約不要・出入り自由。気になる演目だけ観に来るのも大歓迎です。"],
+      ["OPEN", "地域にひらく", "学外の方、地域の方、どなたでも。麻布の地域交流の中心となるコミュニティへの第一歩です。"],
+    ],
+    notices: [
+      "学外の方も大歓迎です。どなたでもお気軽にお越しください。",
+      "撮影・録音は可能です。ただし、出演者の許可なくSNS等へ投稿することはお控えください。",
+      "途中の入退場は自由です。",
+      "上履きは不要です。",
+      "講堂内での飲食は、お飲み物のみ可能です。",
+      "会場の麻布生のノリが異常な盛り上がりを見せる場合があります。どうかお気になさらず。",
+      "名札を付けている芸術祭スタッフの指示はよく聞いてください。",
+    ],
+    faq: [
+      ["チケットや予約は必要ですか？", "必要ありません。入場無料・予約不要で、当日そのままお越しいただけます。"],
+      ["途中から入ったり、途中で帰ったりしてもいいですか？", "はい、入退場は自由です。お好きな演目だけでもぜひ。"],
+      ["麻布の生徒・関係者じゃなくても行けますか？", "もちろんです。地域の方、他校の方、どなたでも大歓迎です。"],
+      ["写真や動画を撮ってもいいですか？", "撮影・録音はOKです。ただし出演者の許可なくSNS等へ投稿するのはご遠慮ください。"],
+      ["飲食はできますか？", "講堂内はお飲み物のみOKです。"],
+      ["上履きは必要ですか？", "不要です。そのままお入りください。"],
+    ],
+    greeting: [
+      "こんにちは。芸術祭 共同代表の石山と大林です。",
+      "今年の芸術祭は、麻布の地域交流の中心となるコミュニティとしての第一歩と考えています。",
+      "学外の皆さまも、どうぞ遠慮なくお立ち寄りください。",
+    ],
+    greetingSign: "芸術祭 共同代表　石山遼真・大林祐駈",
+    // お知らせ（新しい順。[日付, 本文]）
+    news: [
+      ["2026.11.07", "芸術祭2026は無事に終了しました。2,157人の方にご来場いただきました。ありがとうございました！"],
+      ["2026.10.27", "公式サイトを公開しました。"],
+    ],
+    howto: [
+      ["ふらっと来る", "予約もチケットもいりません。思い立ったらそのまま講堂へ。"],
+      ["好きな演目を選ぶ", "出入り自由。タイムテーブルを見て、気になるステージだけでもOK。"],
+      ["撮って残す", "撮影・録音はOK。SNSに載せるときは出演者の許可をとってから。"],
+      ["一緒に盛り上がる", "麻布生のノリに巻き込まれるのも、この日の楽しみ方のひとつです。"],
+    ],
+    // パンフレット（PDFなど）を公開するならそのURL。空のあいだリンクは出さない
+    pamphletUrl: "",
+    credits: [
+      ["共同代表", "石山遼真・大林祐駈"],
+      ["運営", "芸術祭スタッフ一同"],
+      ["メインビジュアル", "神田祐太郎"],
+      ["顧問", "諸橋先生・村本先生"],
+    ],
+    // staff: true の行は一般向けには表示しません
+    program: [
+      { start: "12:30", end: "",      title: "各スタッフ準備開始", kind: "staff", staff: true },
+      { start: "12:40", end: "",      title: "開場",       kind: "ceremony" },
+      { start: "12:50", end: "",      title: "開会",       kind: "ceremony" },
+      { start: "12:55", end: "14:05", title: "軽音",       kind: "band",   performer: "軽音楽部", desc: "入部希望者募集！！", photo: "images/band.jpg", comment: "響く轟音とライブパフォーマンスをお楽しみください！" },
+      { start: "14:07", end: "14:47", title: "DJ",         kind: "dj",     performer: "", desc: "", photo: "images/dj.jpg", comment: "Make some noise!" },
+      { start: "14:48", end: "15:48", title: "アザライブ！", kind: "live",   label: "AZA LIVE", performer: "", desc: "", photo: "images/live.jpg", comment: "麻布学園のスクールアイドル、アザライブ！です！" },
+      { start: "15:50", end: "16:19", title: "ダンス",     kind: "dance",  performer: "ダンス部", desc: "", photo: "images/dance.jpg", comment: "精一杯踊ります！みんな見に来てね！", memberCount: 18 },
+      { start: "16:20", end: "16:58", title: "演劇",       kind: "drama",  performer: "演劇部", work: "『Vの中』", desc: "", photo: "images/drama.jpg", photoPos: "60% 36%", comment: "究極の芸術に震えよ。\nVtuber×芥川龍之介", memberCount: 13 },
+      { start: "17:00", end: "",      title: "閉会のあいさつ", kind: "ceremony" },
+    ],
+  },
 ];
+
+// 表示する年を決める（?year=2026 のように指定。なければいちばん新しい年）
+const YEAR_PARAM = new URLSearchParams(location.search).get("year");
+const EDITION = EDITIONS.find((e) => String(e.year) === YEAR_PARAM) || EDITIONS[0];
+const IS_LATEST = EDITION === EDITIONS[0];
+// これまでのページの書き方をそのまま使えるように、1つにまとめる
+const EVENT = { ...SITE, ...EDITION, title: SITE.title };
+const PROGRAM = EDITION.program;
+const DONE = EDITION.status === "done";
+
+// 団体ごとの色（新しいジャンルは program 側に color を書けば上書きできる）
+function kc(p) { return p && p.color ? ` style="--c:${p.color}"` : ""; }
 
 const KIND_LABEL = {
   ceremony: "式典", band: "BAND", dj: "DJ", live: "LIVE", dance: "DANCE", drama: "DRAMA", staff: "STAFF",
 };
+// ジャンルの短い表示名（一覧にない新しいジャンルは label か英字のkindをそのまま使う）
+function kindLabel(p) { return KIND_LABEL[p.kind] || p.label || String(p.kind).toUpperCase(); }
 
 // 「【要入力】」を目立つ表示に変換するヘルパー
 function fill(text) {
@@ -153,7 +190,7 @@ function membersHtml(p, namesHidden) {
 // キャッチコピーのロゴ組（先頭の数字を大きく、残りを2行で、下にジャンル）
 function catchLockup() {
   const m = EVENT.catchcopy.match(/^(\d+)([\s\S]*)$/);
-  const genres = PERFORMANCES.map((p) => KIND_LABEL[p.kind]).join(" / ");
+  const genres = PERFORMANCES.map((p) => kindLabel(p)).join(" / ");
   if (!m) return `<span class="c-txt">${br(EVENT.catchcopy)}</span>`;
   return `<span class="c-row"><span class="c-num">${m[1]}</span><span class="c-txt">${br(m[2])}</span></span><span class="c-genres">${genres}</span>`;
 }
@@ -163,7 +200,7 @@ function timelineBar(nowMin) {
   const from = minutes(EVENT.openTime), to = minutes(EVENT.endTime), span = to - from;
   const pct = (m) => ((m - from) / span) * 100;
   const segs = PERFORMANCES.map((p) =>
-    `<div class="tl-seg k-${p.kind}" style="left:${pct(minutes(p.start))}%;width:${pct(minutes(p.end)) - pct(minutes(p.start))}%"><span>${KIND_LABEL[p.kind]}</span></div>`).join("");
+    `<div class="tl-seg k-${p.kind}" style="left:${pct(minutes(p.start))}%;width:${pct(minutes(p.end)) - pct(minutes(p.start))}%${p.color ? `;--c:${p.color}` : ""}"><span>${kindLabel(p)}</span></div>`).join("");
   const ticks = [];
   for (let h = Math.ceil(from / 60); h * 60 <= to; h++) ticks.push(`<div class="tl-tick" style="left:${pct(h * 60)}%">${h}:00</div>`);
   const now = nowMin != null && nowMin >= from && nowMin <= to ? `<div class="tl-now" style="left:${pct(nowMin)}%"></div>` : "";
