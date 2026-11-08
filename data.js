@@ -32,11 +32,14 @@ const SITE = {
 const EDITIONS = [
   {
     year: 2026,
+    edition: 11,          // 第何回か
     status: "done",
     attendance: 2157,
+    // 当日の進行についてのひとこと（プログラムの下に出す。なければ空に）
+    programNote: "当日は予定より10分遅れで進行しました。上の時間は実際の時間です。",
     // 開催後のお礼（共同代表から）
     report: [
-      "芸術祭2026にお越しいただいた皆さま、本当にありがとうございました。",
+      "第11回となる芸術祭2026にお越しいただいた皆さま、本当にありがとうございました。",
       "当日は2,157人もの方にご来場いただき、たくさんの拍手と声援をいただきました。",
       "出演してくれた軽音・DJ・アザライブ！・ダンス・演劇の皆さん、準備から当日まで支えてくれたスタッフと先生方、そして足を運んでくださった地域の皆さまに、心から感謝いたします。",
       "芸術祭は、これからも麻布の地域交流の中心となるコミュニティを目指して続いていきます。来年もぜひお越しください。",
@@ -50,9 +53,9 @@ const EDITIONS = [
     heroImage: "images/keyvisual.jpg",
     date: "2026-11-07",
     dateLabel: "2026年11月7日（土）",
-    openTime: "12:40",
-    startTime: "12:55",
-    endTime: "17:00",
+    openTime: "12:50",
+    startTime: "13:05",
+    endTime: "17:10",
     venue: "麻布学園 講堂",
     address: "東京都港区元麻布2-3-29",
     access: [
@@ -111,14 +114,14 @@ const EDITIONS = [
     // staff: true の行は一般向けには表示しません
     program: [
       { start: "12:30", end: "",      title: "各スタッフ準備開始", kind: "staff", staff: true },
-      { start: "12:40", end: "",      title: "開場",       kind: "ceremony" },
-      { start: "12:50", end: "",      title: "開会",       kind: "ceremony" },
-      { start: "12:55", end: "14:05", title: "軽音",       kind: "band",   performer: "軽音楽部", desc: "入部希望者募集！！", photo: "images/band.jpg", comment: "響く轟音とライブパフォーマンスをお楽しみください！" },
-      { start: "14:07", end: "14:47", title: "DJ",         kind: "dj",     performer: "", desc: "", photo: "images/dj.jpg", comment: "Make some noise!" },
-      { start: "14:48", end: "15:48", title: "アザライブ！", kind: "live",   label: "AZA LIVE", performer: "", desc: "", photo: "images/live.jpg", comment: "麻布学園のスクールアイドル、アザライブ！です！" },
-      { start: "15:50", end: "16:19", title: "ダンス",     kind: "dance",  performer: "ダンス部", desc: "", photo: "images/dance.jpg", comment: "精一杯踊ります！みんな見に来てね！", memberCount: 18 },
-      { start: "16:20", end: "16:58", title: "演劇",       kind: "drama",  performer: "演劇部", work: "『Vの中』", desc: "", photo: "images/drama.jpg", photoPos: "60% 36%", comment: "究極の芸術に震えよ。\nVtuber×芥川龍之介", memberCount: 13 },
-      { start: "17:00", end: "",      title: "閉会のあいさつ", kind: "ceremony" },
+      { start: "12:50", end: "",      title: "開場",       kind: "ceremony" },
+      { start: "13:00", end: "",      title: "開会",       kind: "ceremony" },
+      { start: "13:05", end: "14:15", title: "軽音",       kind: "band",   performer: "軽音楽部", desc: "入部希望者募集！！", photo: "images/band.jpg", comment: "響く轟音とライブパフォーマンスをお楽しみください！" },
+      { start: "14:17", end: "14:57", title: "DJ",         kind: "dj",     performer: "", desc: "", photo: "images/dj.jpg", comment: "Make some noise!" },
+      { start: "14:58", end: "15:58", title: "アザライブ！", kind: "live",   label: "AZA LIVE", performer: "", desc: "", photo: "images/live.jpg", comment: "麻布学園のスクールアイドル、アザライブ！です！" },
+      { start: "16:00", end: "16:29", title: "ダンス",     kind: "dance",  performer: "ダンス部", desc: "", photo: "images/dance.jpg", comment: "精一杯踊ります！みんな見に来てね！", memberCount: 18 },
+      { start: "16:30", end: "17:08", title: "演劇",       kind: "drama",  performer: "演劇部", work: "『Vの中』", desc: "", photo: "images/drama.jpg", photoPos: "60% 36%", comment: "究極の芸術に震えよ。\nVtuber×芥川龍之介", memberCount: 13 },
+      { start: "17:10", end: "",      title: "閉会のあいさつ", kind: "ceremony" },
     ],
   },
 ];
