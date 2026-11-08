@@ -5,15 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>芸術祭</title>
 <!-- LINEやXでシェアしたときのプレビュー（公開URLを変えたら og:url と og:image も直す） -->
-<meta name="description" content="芸術祭は、麻布学園の生徒が企画・運営する音楽・ダンス・演劇のステージイベント。入場無料・どなたでも。芸術祭2026は2,157人が来場しました。">
+<meta name="description" content="芸術祭は、麻布学園の生徒が企画・運営する音楽・ダンス・演劇のステージイベント。入場無料・予約不要、学外の方や地域の方もどなたでも。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="芸術祭｜AZABU ART FESTIVAL">
-<meta property="og:description" content="麻布から、地域とつながる一日を。軽音・DJ・アザライブ！・ダンス・演劇。芸術祭2026は2,157人が来場しました。">
+<meta property="og:description" content="麻布から、地域とつながる一日を。麻布学園の生徒が企画・運営する、音楽・ダンス・演劇のステージイベント。">
 <meta property="og:url" content="https://ryoishiyama1-svg.github.io/geijutsusai2026/">
 <meta property="og:image" content="https://ryoishiyama1-svg.github.io/geijutsusai2026/images/ogp.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="芸術祭 11.07 SAT 麻布学園 講堂 入場無料">
+<meta property="og:image:alt" content="芸術祭 メインビジュアル">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:site_name" content="芸術祭">
 <meta name="twitter:card" content="summary_large_image">
@@ -22,25 +22,6 @@
 <link rel="canonical" href="https://ryoishiyama1-svg.github.io/geijutsusai2026/">
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="512x512" href="images/icon-512.png">
-<!-- Google検索に「イベント」として載せるための情報 -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Event",
-  "name": "第11回 芸術祭2026",
-  "description": "5つのステージを、一日で。軽音・DJ・アザライブ！・ダンス・演劇。入場無料・予約不要。",
-  "startDate": "2026-11-07T13:05:00+09:00",
-  "endDate": "2026-11-07T17:10:00+09:00",
-  "doorTime": "12:50:00+09:00",
-  "eventStatus": "https://schema.org/EventScheduled",
-  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-  "isAccessibleForFree": true,
-  "image": ["https://ryoishiyama1-svg.github.io/geijutsusai2026/images/ogp.jpg", "https://ryoishiyama1-svg.github.io/geijutsusai2026/images/keyvisual.jpg"],
-  "location": { "@type": "Place", "name": "麻布学園 講堂", "address": { "@type": "PostalAddress", "streetAddress": "元麻布2-3-29", "addressLocality": "港区", "addressRegion": "東京都", "addressCountry": "JP" } },
-  "organizer": { "@type": "Organization", "name": "芸術祭スタッフ一同", "email": "geijutusai@gmail.com", "url": "https://ryoishiyama1-svg.github.io/geijutsusai2026/" },
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY", "availability": "https://schema.org/InStock", "url": "https://ryoishiyama1-svg.github.io/geijutsusai2026/" }
-}
-</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2212%22 fill=%22%2307081a%22/%3E%3Ctext x=%2232%22 y=%2246%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%23e8bd57%22 font-family=%22serif%22 font-weight=%22900%22%3E芸%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700;900&family=Zen+Old+Mincho:wght@700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -768,7 +749,9 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="data.js"></script>
+<script src="data/site.js"></script>
+<script>YEARS.forEach((y) => document.write(`<script src="data/${y}.js"><\/script>`));</script>
+<script src="data/select.js"></script>
 <script>
   const $ = (id) => document.getElementById(id);
 
@@ -827,7 +810,7 @@
     const here = e === EDITION;
     return `<a class="arc${here ? " here" : ""}" href="${href}">
       ${e.edition ? `<span class="arc-ed">第${e.edition}回</span>` : ""}<span class="arc-year">${e.year}</span>
-      <span class="arc-date">${e.dateLabel}　${e.venue}</span>
+      <span class="arc-date">${fill(e.dateLabel)}　${e.venue}</span>
       <span class="arc-genres">${perf.map((p) => kindLabel(p)).join(" / ")}</span>
       <span class="arc-n">${e.status === "done" && e.attendance ? `来場者 <b>${num(e.attendance)}</b>人` : "開催予定"}</span>
       <span class="arc-go">${here ? "このページ" : "見る →"}</span>
@@ -941,7 +924,27 @@
   $("chipTime").innerHTML = `開場 <b>${EVENT.openTime}</b> 開演 <b>${EVENT.startTime}</b>`;
   $("chipVenue").textContent = EVENT.venue;
   $("chipFee").innerHTML = fill(EVENT.fee);
-  document.title = DONE ? `${EVENT.edition ? `第${EVENT.edition}回 ` : ""}${EVENT.title}${Y}｜ご来場ありがとうございました` : `${EVENT.title}${Y}｜${EVENT.dateLabel} ${EVENT.venue}`;
+  document.title = DONE ? `${EVENT.edition ? `第${EVENT.edition}回 ` : ""}${EVENT.title}${Y}｜ご来場ありがとうございました` : `${EVENT.edition ? `第${EVENT.edition}回 ` : ""}${EVENT.title}${Y}｜${EVENT.dateLabel.replace(/【要入力】[^（、。]*/g, "")} ${EVENT.venue}`;
+
+  // Google検索に「イベント」として載せる情報（表示中の年から自動で作る）
+  const ld = document.createElement("script");
+  ld.type = "application/ld+json";
+  ld.textContent = JSON.stringify({
+    "@context": "https://schema.org", "@type": "Event",
+    name: `${EVENT.edition ? `第${EVENT.edition}回 ` : ""}${EVENT.title}${Y}`,
+    description: SITE.about[0],
+    startDate: `${EVENT.date}T${EVENT.startTime}:00+09:00`,
+    endDate: `${EVENT.date}T${EVENT.endTime}:00+09:00`,
+    doorTime: `${EVENT.openTime}:00+09:00`,
+    eventStatus: "https://schema.org/EventScheduled",
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    isAccessibleForFree: true,
+    image: [new URL("images/ogp.jpg", SITE.siteUrl).href, new URL(EVENT.heroImage, SITE.siteUrl).href],
+    location: { "@type": "Place", name: EVENT.venue, address: { "@type": "PostalAddress", streetAddress: EVENT.address.replace(/^東京都港区/, ""), addressLocality: "港区", addressRegion: "東京都", addressCountry: "JP" } },
+    organizer: { "@type": "Organization", name: SITE.organizer, email: SITE.contact, url: SITE.siteUrl },
+    offers: { "@type": "Offer", price: "0", priceCurrency: "JPY", availability: "https://schema.org/InStock", url: SITE.siteUrl },
+  });
+  document.head.appendChild(ld);
 
   addEventListener("scroll", () => $("nav").classList.toggle("scrolled", scrollY > 40), { passive: true });
 
