@@ -577,6 +577,39 @@
   /* ===== v6：第◯回・進行メモ ===== */
   .arc-ed { font-size: 13px; font-weight: 700; letter-spacing: .1em; color: var(--mint); }
   .prog-note { margin: 12px 0 0; font-size: 13px; color: var(--muted); }
+
+  /* ===== v7：数字で見る・写真ビューア・次回カード ===== */
+  .nums { display: flex; flex-wrap: wrap; gap: 12px; }
+  .nums .nt { flex: 1 1 150px; white-space: nowrap; }
+  .nums .nt span { white-space: normal; }
+  .nums .nt:first-child { flex: 2.2 1 280px; }
+  .nt { position: relative; padding: 22px 20px 18px; border: 1px solid var(--line); border-radius: var(--r); background: linear-gradient(160deg, rgba(232,189,87,.08), transparent 55%), var(--card); overflow: hidden; }
+  .nt b { font-family: var(--en); font-weight: 400; font-size: clamp(44px, 5vw, 64px); line-height: 1; color: var(--gold); letter-spacing: .02em; }
+  .nt b small { font-family: var(--sans, inherit); font-size: 15px; margin: 0 3px; color: #e9e7f4; }
+  .nt > small { font-size: 15px; font-weight: 700; margin-left: 4px; color: #e9e7f4; }
+  .nt span { display: block; margin-top: 8px; font-size: 13px; color: var(--muted); letter-spacing: .06em; }
+  .nt:first-child b { font-size: clamp(64px, 8vw, 96px); text-shadow: 0 0 30px rgba(232,189,87,.3); }
+
+  .gallery .g-open { all: unset; display: block; cursor: zoom-in; width: 100%; }
+  .gallery .g-open:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
+  .gallery figure img { transition: transform .4s; }
+  .gallery figure:hover img { transform: scale(1.04); }
+  .lb { position: fixed; inset: 0; z-index: 100; background: rgba(4,5,15,.94); display: grid; place-items: center; padding: 56px 64px; }
+  .lb[hidden] { display: none !important; }
+  .lb-fig { margin: 0; max-width: 100%; max-height: 100%; display: grid; gap: 10px; justify-items: center; }
+  .lb-fig img { max-width: min(1200px, 100%); max-height: calc(100svh - 150px); object-fit: contain; border-radius: 8px; }
+  .lb-fig figcaption { font-size: 14px; color: #e9e7f4; text-align: center; }
+  .lb-x, .lb-nav { position: absolute; border: 0; background: rgba(255,255,255,.08); color: #fff; cursor: pointer; border-radius: 999px; display: grid; place-items: center; }
+  .lb-x { top: 14px; right: 14px; width: 44px; height: 44px; font-size: 26px; }
+  .lb-nav { top: 50%; translate: 0 -50%; width: 48px; height: 48px; font-size: 32px; }
+  .lb-prev { left: 10px; } .lb-next { right: 10px; }
+  .lb-x:hover, .lb-nav:hover { background: rgba(232,189,87,.3); }
+  @media (max-width: 560px) { .lb { padding: 56px 8px; } .lb-nav { top: auto; bottom: 14px; translate: none; } .lb-prev { left: 30%; } .lb-next { right: 30%; } }
+
+  .arc.next { border-style: dashed; background: transparent; cursor: default; }
+  .arc.next:hover { transform: none; border-color: var(--line); }
+  .arc.next .arc-year { color: transparent; -webkit-text-stroke: 1px var(--gold); }
+  .arc.next .arc-n { color: var(--mint); font-weight: 700; letter-spacing: .1em; }
 </style>
 </head>
 <body>
@@ -650,6 +683,11 @@
   <div class="hl" id="hlList"></div>
 </section>
 
+<section id="numbers" hidden>
+  <div class="sec-head"><span class="num"></span><div><small>BY THE NUMBERS</small><h2 id="numbersTitle">数字で見る芸術祭</h2></div></div>
+  <div class="nums" id="numbersList"></div>
+</section>
+
 <section id="greeting">
   <div class="sec-head"><span class="num"></span><div><small id="greetEn">GREETING</small><h2 id="greetTitle">ごあいさつ</h2></div></div>
   <div class="greeting">
@@ -676,6 +714,14 @@
   <div class="sec-head"><span class="num"></span><div><small>PHOTOS</small><h2>当日の様子</h2></div></div>
   <div class="gallery" id="galleryList"></div>
 </section>
+
+<!-- 写真を大きく見る -->
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="写真を大きく表示">
+  <button class="lb-x" id="lbClose" type="button" aria-label="閉じる">×</button>
+  <button class="lb-nav lb-prev" id="lbPrev" type="button" aria-label="前の写真">‹</button>
+  <figure class="lb-fig"><img id="lbImg" alt=""><figcaption id="lbCap"></figcaption></figure>
+  <button class="lb-nav lb-next" id="lbNext" type="button" aria-label="次の写真">›</button>
+</div>
 
 <section id="howto">
   <div class="sec-head"><span class="num"></span><div><small>HOW TO ENJOY</small><h2>当日の楽しみ方</h2></div></div>
@@ -803,8 +849,14 @@
     [lastDone.program.filter((p) => p.end && !p.staff).length, "", `${lastDone.year}年のステージ`],
   ].map(([n, u, l]) => `<div class="st"><b>${n}<small>${u}</small></b><span>${l}</span></div>`).join("") : "";
 
-  // これまでの芸術祭（年ごとの記録へのリンク）
-  $("archiveList").innerHTML = EDITIONS.map((e, i) => {
+  // これまでの芸術祭（年ごとの記録へのリンク）。最新の年が終わっていたら「次回 準備中」のカードを先頭に
+  const newest = EDITIONS[0];
+  const nextCard = newest.status === "done" ? `<div class="arc next">
+      ${newest.edition ? `<span class="arc-ed">第${newest.edition + 1}回</span>` : ""}<span class="arc-year">${newest.year + 1}</span>
+      <span class="arc-date">日程は決まりしだい、このサイトでお知らせします。</span>
+      <span class="arc-n">準備中</span>
+    </div>` : "";
+  $("archiveList").innerHTML = nextCard + EDITIONS.map((e, i) => {
     const perf = e.program.filter((p) => p.end && !p.staff);
     const href = i === 0 ? "./" : `?year=${e.year}`;
     const here = e === EDITION;
@@ -820,8 +872,29 @@
   // 当日の写真
   if (EDITION.photos && EDITION.photos.length) {
     $("gallery").hidden = false;
-    $("galleryList").innerHTML = EDITION.photos.map(([src, cap]) =>
-      `<figure><img src="${src}" alt="${cap || "芸術祭" + Y + "の様子"}" loading="lazy">${cap ? `<figcaption>${cap}</figcaption>` : ""}</figure>`).join("");
+    $("galleryList").innerHTML = EDITION.photos.map(([src, cap], i) =>
+      `<figure><button type="button" class="g-open" data-i="${i}" aria-label="${cap || "写真"}を大きく見る"><img src="${src}" alt="${cap || "芸術祭" + Y + "の様子"}" loading="lazy"></button>${cap ? `<figcaption>${cap}</figcaption>` : ""}</figure>`).join("");
+    // 写真を大きく見る（← → で切りかえ、Esc で閉じる）
+    let lbI = 0;
+    const lbShow = (i) => {
+      lbI = (i + EDITION.photos.length) % EDITION.photos.length;
+      const [src, cap] = EDITION.photos[lbI];
+      $("lbImg").src = src; $("lbImg").alt = cap || ""; $("lbCap").textContent = cap ? `${cap}　${lbI + 1} / ${EDITION.photos.length}` : `${lbI + 1} / ${EDITION.photos.length}`;
+    };
+    const lbOpen = (i) => { lbShow(i); $("lb").hidden = false; document.body.style.overflow = "hidden"; $("lbClose").focus(); };
+    const lbClose = () => { $("lb").hidden = true; document.body.style.overflow = ""; };
+    document.querySelectorAll(".g-open").forEach((b) => (b.onclick = () => lbOpen(+b.dataset.i)));
+    $("lbClose").onclick = lbClose;
+    $("lbPrev").onclick = () => lbShow(lbI - 1);
+    $("lbNext").onclick = () => lbShow(lbI + 1);
+    $("lb").onclick = (e) => { if (e.target === $("lb")) lbClose(); };
+    const multi = EDITION.photos.length > 1; $("lbPrev").hidden = !multi; $("lbNext").hidden = !multi;
+    addEventListener("keydown", (e) => {
+      if ($("lb").hidden) return;
+      if (e.key === "Escape") lbClose();
+      if (e.key === "ArrowLeft") lbShow(lbI - 1);
+      if (e.key === "ArrowRight") lbShow(lbI + 1);
+    });
   }
 
   // 過去の年を見ているとき
@@ -834,6 +907,33 @@
 
   if (DONE) {
     ["highlights", "howto", "notice", "faq", "wantBar", "navNotice", "navFaq", "gcal", "ics", "countdown"].forEach((id) => ($(id).hidden = true));
+    // 数字で見る（その年の記録）。「芸術祭とは」の数字は、ここと重なるので出さない
+    const stages = PERFORMANCES.length;
+    const genres = new Set(PERFORMANCES.map((p) => p.kind)).size;
+    const showMin = minutes(EVENT.endTime) - minutes(EVENT.startTime);
+    const tiles = [
+      ...(EVENT.attendance ? [[EVENT.attendance, "人", "来場者"]] : []),
+      [stages, "", "ステージ"],
+      [genres, "", "ジャンル"],
+      [`${Math.floor(showMin / 60)}<small>時間</small>${String(showMin % 60).padStart(2, "0")}`, "分", "開演から閉会まで"],
+      ...(EVENT.edition ? [[EVENT.edition, "回目", "の芸術祭"]] : []),
+    ];
+    $("numbers").hidden = false;
+    $("numbersTitle").textContent = `数字で見る芸術祭${Y}`;
+    $("numbersList").innerHTML = tiles.map(([n, u, l]) =>
+      `<div class="nt"><b${typeof n === "number" ? ` data-to="${n}"` : ""}>${typeof n === "number" ? num(n) : n}</b><small>${u}</small><span>${l}</span></div>`).join("");
+    $("aboutStats").hidden = true;
+    // 画面に入ったら数字をカウントアップ（動きを減らす設定では出さない）
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches && "IntersectionObserver" in window) {
+      const nio = new IntersectionObserver((ents) => ents.forEach((en) => {
+        if (!en.isIntersecting) return;
+        nio.unobserve(en.target);
+        const to = +en.target.dataset.to, t0 = performance.now(), dur = 1200;
+        const step = (t) => { const k = Math.min(1, (t - t0) / dur), v = Math.round(to * (1 - Math.pow(1 - k, 3))); en.target.textContent = num(v); if (k < 1) requestAnimationFrame(step); };
+        requestAnimationFrame(step);
+      }), { threshold: 0.6 });
+      document.querySelectorAll("#numbersList b[data-to]").forEach((b) => nio.observe(b));
+    }
     $("result").hidden = false;
     $("result").innerHTML = `<div class="res-en">THANK YOU!</div>
       ${EVENT.attendance ? `<div class="res-n"><span>来場者数</span><b id="resNum">${num(EVENT.attendance)}</b><span>人</span></div>` : ""}
@@ -899,7 +999,7 @@
     setTimeout(() => { b.classList.remove("copied"); b.querySelector("span").textContent = "COPY"; }, 1600);
   }));
   $("xPost").href = "https://x.com/intent/post?text=" +
-    encodeURIComponent(`${EVENT.title}｜${EVENT.dateLabel} ${EVENT.venue}\n${EVENT.hashtags.join(" ")}\n${location.href.split("#")[0]}`);
+    encodeURIComponent(`${DONE ? `${EVENT.edition ? `第${EVENT.edition}回 ` : ""}${EVENT.title}${Y}、ありがとうございました！` : `${EVENT.title}${Y}｜${EVENT.dateLabel} ${EVENT.venue}`}\n${EVENT.hashtags.join(" ")}\n${location.href.split("#")[0]}`);
 
   // 楽しみ方・クレジット
   $("howtoList").innerHTML = EVENT.howto.map(([t, d], i) =>
@@ -1087,7 +1187,7 @@
   setInterval(tick, 1000);
 
   // スクロールでふわっと出す
-  const revealEls = document.querySelectorAll(".sec-head, .hl-item, .greeting, .tl, .row, .card, .box, .notice-list li, .faq details, .howto li, .credits div, .share-box, .about, .arc, .gallery figure");
+  const revealEls = document.querySelectorAll(".sec-head, .hl-item, .greeting, .tl, .row, .card, .box, .notice-list li, .faq details, .howto li, .credits div, .share-box, .about, .arc, .gallery figure, .nt");
   revealEls.forEach((el) => el.classList.add("reveal"));
   if ("IntersectionObserver" in window) {
     const io = new IntersectionObserver((entries) => entries.forEach((e) => {
